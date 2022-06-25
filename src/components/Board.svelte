@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let isMouseDown: boolean;
+	export let isShiftKeyDown: boolean;
 
 	const DEFAULT_BOARD_SIZE = 32;
 	let boardSize = DEFAULT_BOARD_SIZE;
@@ -12,7 +13,7 @@
 
 	const onMouseEnterTile = (index: number) => {
 		if (isMouseDown) {
-			tiles[index] = true;
+			tiles[index] = !isShiftKeyDown;
 		}
 	};
 
@@ -64,6 +65,7 @@
 	};
 
 	const onClearClick = () => {
+		isRunning = false;
 		tiles = new Array(boardSize * boardSize).fill(false);
 	};
 
@@ -108,7 +110,11 @@
 		style="box-shadow: #0062e3 0 0 3px; margin-left: 1rem"
 		on:click={step}>Next</button
 	>
-	<button class={buttonStyles} style="box-shadow: #0062e3 0 0 3px; margin-left: 1rem">Clear</button>
+	<button
+		class={buttonStyles}
+		style="box-shadow: #0062e3 0 0 3px; margin-left: 1rem"
+		on:click={onClearClick}>Clear</button
+	>
 </div>
 
 <div
